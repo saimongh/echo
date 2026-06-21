@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>echo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'><path fill='%2384a58b' d='M533.6 32.5C598.5 85.3 640 165.8 640 256s-41.5 170.8-106.4 223.5c-10.3 8.4-25.4 6.8-33.8-3.5s-6.8-25.4 3.5-33.8C557.5 398.2 592 331.2 592 256s-34.5-142.2-88.7-186.3c-10.3-8.4-11.8-23.5-3.5-33.8s23.5-11.8 33.8-3.5zM473.1 107c43.2 35.2 70.9 88.9 70.9 149s-27.7 113.8-70.9 149c-10.3 8.4-25.4 6.8-33.8-3.5s-6.8-25.4 3.5-33.8C475.3 341.3 496 301.1 496 256s-20.7-85.3-53.2-111.8c-10.3-8.4-11.8-23.5-3.5-33.8s23.5-11.8 33.8-3.5zm-60.5 74.5C434.1 199.1 448 225.9 448 256s-13.9 56.9-35.4 74.5c-10.3 8.4-25.4 6.8-33.8-3.5s-6.8-25.4 3.5-33.8C393.1 284.4 400 271 400 256s-6.9-28.4-17.6-37.3c-10.3-8.4-11.8-23.5-3.5-33.8s23.5-11.8 33.8-3.5zM301.1 34.8C312.6 40 320 51.4 320 64V448c0 12.6-7.4 24-18.9 29.2s-25 3.1-34.4-5.3L131.8 352H64c-35.3 0-64-28.7-64-64V224c0-35.3 28.7-64 64-64h67.8L266.7 40.1c9.4-8.4 22.9-10.4 34.4-5.3z'/></svg>" type="image/svg+xml">
+<style>
+  body { 
+    background: #0d0d0d; 
+    color: #f2f2f2; 
+    font-family: -apple-system, blinkmacsystemfont, "segoe ui", roboto, helvetica, arial, sans-serif; 
+    margin: 0; 
+    padding: 20px; 
+    line-height: 1.6; 
+  }
+  .container { max-width: 600px; margin: 40px auto; }
+  h1 { font-size: 1.2rem; font-weight: 400; color: #fff; margin-bottom: 24px; letter-spacing: 0.05em; text-transform: lowercase; }
+  
+  .brand-title { font-size: 2.2rem; font-weight: 300; letter-spacing: 0.15em; margin-bottom: 40px; text-align: center; color: #fff; }
+
+  .intro-text { font-size: 1.05rem; font-weight: 300; margin-bottom: 20px; text-align: center; color: #ccc; }
+  .text-link { color: #84a58b; text-decoration: none; transition: color 0.2s ease; }
+  .text-link:hover { color: #a5c4ab; }
+  em { font-style: italic; color: #fff; }
+
+  button, input { font-family: inherit; box-sizing: border-box; outline: none; }
+  
+  .btn { 
+    display: block; width: 100%; padding: 20px; margin-bottom: 12px; 
+    background: #151515; border: 1px solid #262626; border-radius: 12px; 
+    color: #eaeaea; font-size: 1.05rem; text-align: left; cursor: pointer; 
+    transition: all 0.2s ease; font-weight: 300;
+  }
+  .btn:hover { background: #1c1c1c; border-color: #3a3a3a; transform: translateY(-1px); }
+  .btn-center { text-align: center; }
+  
+  .nav-btn { padding: 8px 16px; border: none; background: transparent; color: #777; cursor: pointer; font-size: 0.95rem; font-weight: 300; padding-left: 0; transition: color 0.2s ease; }
+  .nav-btn:hover { color: #ccc; }
+  
+  .top-bar { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+  
+  .progress-bar { width: 100%; height: 3px; background: #262626; border-radius: 2px; margin-bottom: 24px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #84a58b; width: 0%; transition: width 0.3s ease; }
+
+  .card { 
+    background: #151515; border: 1px solid #262626; border-radius: 16px; 
+    padding: 80px 30px; text-align: center; cursor: pointer; 
+    min-height: 320px; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+    transition: background 0.2s ease; box-shadow: 0 10px 40px rgba(0,0,0,0.6); position: relative;
+  }
+  .card:hover { background: #181818; }
+  
+  .eng-text { font-family: "georgia", serif; font-size: 1.6rem; font-weight: 400; color: #fff; margin-bottom: 24px; font-style: italic; text-align: center; }
+  .target-text { font-family: "georgia", serif; font-size: 1.3rem; color: #a3a3a3; margin-bottom: 36px; text-align: center; }
+
+  .jp-section { margin-bottom: 20px; }
+  .jp-label { font-size: 0.8rem; color: #84a58b; text-transform: lowercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .jp-kanji { font-size: 1.4rem; color: #fff; margin-bottom: 4px; font-family: sans-serif; }
+  .jp-kana { font-size: 1.1rem; color: #ccc; margin-bottom: 4px; font-family: sans-serif; }
+  .jp-romaji { font-size: 1rem; color: #888; font-style: italic; }
+
+  .action-btn { padding: 12px 24px; border: none; border-radius: 30px; background: #e0e0e0; color: #111; cursor: pointer; font-weight: 500; font-size: 0.9rem; transition: transform 0.1s ease, background 0.2s ease; margin: 0 5px; }
+  .action-btn:active { transform: scale(0.98); }
+  .action-btn:hover { background: #fff; }
+  
+  .controls { display: flex; justify-content: space-between; margin-top: 30px; }
+  .control-btn { padding: 14px 28px; border: 1px solid #262626; border-radius: 10px; background: #151515; color: #eaeaea; cursor: pointer; transition: background 0.2s ease; font-weight: 300; }
+  .control-btn:hover { background: #1c1c1c; border-color: #3a3a3a; }
+
+  .cat-header-wrapper { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .cat-header-wrapper h1 { margin-bottom: 0; }
+  
+  .cat-container { margin-bottom: 12px; }
+  .cat-header-row { display: flex; align-items: center; gap: 16px; }
+  .cat-checkbox { width: 20px; height: 20px; accent-color: #444; cursor: pointer; }
+  
+  .cat-btn { flex-grow: 1; background: #151515; border: 1px solid #262626; padding: 18px 20px; border-radius: 12px; color: #eaeaea; text-align: left; cursor: pointer; font-size: 1.05rem; transition: all 0.2s ease; font-weight: 300; }
+  .cat-btn:hover { background: #1c1c1c; border-color: #3a3a3a; }
+
+  .phrase-list { display: none; padding: 12px 0 12px 36px; border-left: 1px solid #262626; margin-left: 10px; margin-bottom: 16px; }
+  .phrase-item { display: block; width: 100%; text-align: left; background: none; border: none; color: #888; padding: 12px 14px; cursor: pointer; font-size: 0.95rem; border-radius: 8px; transition: color 0.2s ease, background 0.2s ease; font-weight: 300; }
+  .phrase-item:hover { color: #fff; background: #151515; }
+
+  #view-langs, #view-method, #view-cats, #view-card { display: none; }
+
+  @media (max-width: 600px) {
+    body { padding: 15px; }
+    .container { margin: 15px auto; }
+    .brand-title { font-size: 2rem; margin-bottom: 30px; }
+    
+    .cat-header-wrapper { 
+      flex-direction: column; 
+      align-items: stretch; 
+      gap: 16px; 
+    }
+    .cat-header-wrapper h1 { text-align: center; }
+    #btn-study-selected { margin: 0; width: 100%; text-align: center; padding: 16px; }
+    
+    .card { min-height: 50vh; padding: 40px 20px; }
+    .eng-text { font-size: 1.8rem; }
+    
+    .controls { gap: 12px; }
+    .control-btn { 
+      flex: 1; 
+      text-align: center; 
+      padding: 18px 0; 
+      font-size: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  
+  <div id="view-intro">
+    <h1 class="brand-title">echo</h1>
+    <p class="intro-text">my personal language library to help me learn the phrases and words <em>i</em> use every day.</p>
+    <p class="intro-text" style="margin-bottom: 40px;">the audio is generated by my own audio generation apps: <a href="https://voix-kohl.vercel.app" target="_blank" class="text-link">voix</a> and <a href="https://koe-lake.vercel.app" target="_blank" class="text-link">koe</a></p>
+    <button class="btn btn-center" id="btn-start" onclick="showLangs()">start</button>
+  </div>
+
+  <div id="view-langs">
+    <div class="top-bar"><button class="nav-btn" onclick="showIntro()">‹ back</button></div>
+    <h1>choose language</h1>
+    <div id="lang-list"></div>
+  </div>
+
+  <div id="view-method">
+    <div class="top-bar"><button class="nav-btn" onclick="showLangs()">‹ back</button></div>
+    <h1>choose learning method</h1>
+    <button class="btn" id="btn-mode-flash" onclick="setMode(`flash`)">flashcards</button>
+    <button class="btn" id="btn-mode-listen" onclick="setMode(`listen`)">listen library</button>
+  </div>
+
+  <div id="view-cats">
+    <div class="top-bar"><button class="nav-btn" onclick="showMethod()">‹ back</button></div>
+    <div class="cat-header-wrapper">
+      <h1>categories</h1>
+      <button id="btn-study-selected" class="action-btn">study selected</button>
+    </div>
+    <div id="cat-list"></div>
+  </div>
+
+  <div id="view-card">
+    <div class="top-bar">
+      <button class="nav-btn" id="btn-back-card">‹ back</button>
+      <span id="card-counter" class="nav-btn" style="cursor: default; color: #555;"></span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="card" id="flashcard">
+      <div id="card-display">
+        <div id="card-eng" class="eng-text"></div>
+        <div id="card-target" class="target-text"></div>
+      </div>
+      <div id="card-audio-container" style="display: flex; gap: 10px;"></div>
+    </div>
+    <div class="controls" id="card-controls">
+      <button id="btn-prev" class="control-btn">previous</button>
+      <button id="btn-next" class="control-btn">next</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let library = {
+  french: {
+    morning: [
+      { id: `f_m_01`, eng: `how did you sleep?`, target: `t’as bien dormi ?`, audio: `french_audio/morning/01_tas_bien_dormi.mp3` },
+      { id: `f_m_02`, eng: `i slept well.`, target: `j’ai bien dormi.`, audio: `french_audio/morning/02_jai_bien_dormi.mp3` },
+      { id: `f_m_03`, eng: `i didn’t get enough sleep.`, target: `j’ai pas assez dormi.`, audio: `french_audio/morning/03_jai_pas_assez_dormi.mp3` },
+      { id: `f_m_04`, eng: `i had weird dreams.`, target: `j’ai fait des rêves bizarres.`, audio: `french_audio/morning/04_jai_fait_des_reves_bizarres.mp3` },
+      { id: `f_m_05`, eng: `did you brush your teeth yet?`, target: `t’as déjà brossé les dents ?`, audio: `french_audio/morning/05_tas_deja_brosse_les_dents.mp3` },
+      { id: `f_m_06`, eng: `i’m going to brush my teeth now.`, target: `je vais me brosser les dents là.`, audio: `french_audio/morning/06_je_vais_me_brosser_les_dents_la.mp3` },
+      { id: `f_m_07`, eng: `are you going to shower?`, target: `tu vas te doucher ?`, audio: `french_audio/morning/07_tu_vas_te_doucher.mp3` },
+      { id: `f_m_08`, eng: `i showered last night.`, target: `je me suis douché hier soir.`, audio: `french_audio/morning/08_je_me_suis_douche_hier_soir.mp3` },
+      { id: `f_m_09`, eng: `i shower at night.`, target: `je me douche le soir.`, audio: `french_audio/morning/09_je_me_douche_le_soir.mp3` },
+      { id: `f_m_10`, eng: `i’m getting dressed now.`, target: `je suis en train de m’habiller.`, audio: `french_audio/morning/10_je_suis_en_train_de_mhabiller.mp3` },
+      { id: `f_m_11`, eng: `i’m doing my skincare now.`, target: `je fais ma routine skincare là.`, audio: `french_audio/morning/11_je_fais_ma_routine_skincare_la.mp3` },
+      { id: `f_m_12`, eng: `i’m packing my bag now.`, target: `je prépare mon sac là.`, audio: `french_audio/morning/12_je_prepare_mon_sac_la.mp3` },
+      { id: `f_m_13`, eng: `what are you packing?`, target: `t’amènes quoi ?`, audio: `french_audio/morning/13_tamenes_quoi.mp3` },
+      { id: `f_m_14a`, eng: `i’m bringing.`, target: `j’amène.`, audio: `french_audio/morning/31_jamene.mp3` },
+      { id: `f_m_14b`, eng: `i’m bringing my laptop.`, target: `j’amène mon ordi.`, audio: `french_audio/morning/32_jamene_mon_ordi.mp3` },
+      { id: `f_m_14c`, eng: `i’m bringing my notebooks.`, target: `j’amène mes carnets.`, audio: `french_audio/morning/33_jamene_mes_carnets.mp3` },
+      { id: `f_m_14d`, eng: `i’m bringing my headphones.`, target: `j’amène mes écouteurs.`, audio: `french_audio/morning/34_jamene_mes_ecouteurs.mp3` },
+      { id: `f_m_14e`, eng: `i’m bringing a battery bank.`, target: `j’amène une batterie externe.`, audio: `french_audio/morning/35_jamene_une_batterie_externe.mp3` },
+      { id: `f_m_19`, eng: `where are you going?`, target: `tu vas où ?`, audio: `french_audio/morning/19_tu_vas_ou.mp3` },
+      { id: `f_m_26`, eng: `i’m going to my house.`, target: `je vais chez moi.`, audio: `french_audio/morning/26_je_vais_chez_moi.mp3` }
+    ],
+    afternoon: [
+      { id: `f_a_04`, eng: `what are you going to do now?`, target: `tu vas faire quoi là ?`, audio: `french_audio/afternoon/04_tu_vas_faire_quoi_la.mp3` }
+    ],
+    evening: [
+      { id: `f_e_01`, eng: `are you going home?`, target: `tu rentres chez toi ?`, audio: `french_audio/evening/01_tu_rentres_chez_toi.mp3` },
+      { id: `f_e_02`, eng: `i am going home now.`, target: `je rentre chez moi là.`, audio: `french_audio/evening/02_je_rentre_chez_moi_la.mp3` },
+      { id: `f_e_03`, eng: `i am going home soon.`, target: `je rentre bientôt.`, audio: `french_audio/evening/03_je_rentre_bientot.mp3` },
+      { id: `f_e_10`, eng: `i can’t wait to sleep.`, target: `j’ai trop hâte de dormir.`, audio: `french_audio/evening/10_jai_trop_hate_de_dormir.mp3` },
+      { id: `f_e_11`, eng: `i’m so exhausted.`, target: `je suis crevé.`, audio: `french_audio/evening/11_je_suis_creve.mp3` },
+      { id: `f_e_12`, eng: `i want to go home.`, target: `j’ai envie de rentrer.`, audio: `french_audio/evening/12_jai_envie_de_rentrer.mp3` },
+      { id: `f_e_15`, eng: `get home safe.`, target: `rentre bien !`, audio: `french_audio/evening/15_rentre_bien.mp3` },
+      { id: `f_e_16`, eng: `have a good one.`, target: `bonne continuation !`, audio: `french_audio/evening/16_bonne_continuation.mp3` },
+      { id: `f_e_17`, eng: `have a good night.`, target: `bonne soirée !`, audio: `french_audio/evening/17_bonne_soiree.mp3` },
+      { id: `f_e_18`, eng: `see you tomorrow.`, target: `à demain !`, audio: `french_audio/evening/18_a_demain.mp3` }
+    ],
+    exercise: [
+      { id: `f_ex_01`, eng: `i am going on a walk`, target: `je vais faire un tour`, audio: `french_audio/exercise/01_je_vais_faire_un_tour.mp3` },
+      { id: `f_ex_02`, eng: `i want to go on a walk`, target: `j’ai envie de faire un tour`, audio: `french_audio/exercise/02_jai_envie_de_faire_un_tour.mp3` },
+      { id: `f_ex_03`, eng: `i am going on a run`, target: `je vais courir`, audio: `french_audio/exercise/03_je_vais_courir.mp3` },
+      { id: `f_ex_04`, eng: `i want to go on a run`, target: `je veux aller courir`, audio: `french_audio/exercise/04_je_veux_aller_courir.mp3` },
+      { id: `f_ex_05`, eng: `i am going to the gym`, target: `je vais à la salle`, audio: `french_audio/exercise/05_je_vais_a_la_salle.mp3` },
+      { id: `f_ex_06`, eng: `i want to go to the gym today`, target: `je veux aller à la salle aujourd’hui`, audio: `french_audio/exercise/06_je_veux_aller_a_la_salle_aujourdhui.mp3` },
+      { id: `f_ex_07`, eng: `i am going climbing today`, target: `je vais grimper aujourd’hui`, audio: `french_audio/exercise/07_je_vais_grimper_aujourdhui.mp3` },
+      { id: `f_ex_08`, eng: `i am climbing`, target: `je grimpe`, audio: `french_audio/exercise/08_je_grimpe.mp3` },
+      { id: `f_ex_09`, eng: `i want to go climbing`, target: `je veux aller grimper`, audio: `french_audio/exercise/09_je_veux_aller_grimper.mp3` },
+      { id: `f_ex_10`, eng: `i am climbing outdoors/outside`, target: `je grimpe dehors`, audio: `french_audio/exercise/10_je_grimpe_dehors.mp3` },
+      { id: `f_ex_11`, eng: `i am thirsty`, target: `j’ai soif`, audio: `french_audio/exercise/11_jai_soif.mp3` },
+      { id: `f_ex_12`, eng: `i am hungry`, target: `j’ai faim`, audio: `french_audio/exercise/12_jai_faim.mp3` },
+      { id: `f_ex_13`, eng: `i am very thirsty`, target: `j’ai super soif`, audio: `french_audio/exercise/13_jai_super_soif.mp3` },
+      { id: `f_ex_14`, eng: `i am very hungry`, target: `j’ai super faim`, audio: `french_audio/exercise/14_jai_super_faim.mp3` },
+      { id: `f_ex_15`, eng: `i need a break`, target: `j’ai besoin d’une pause`, audio: `french_audio/exercise/15_jai_besoin_dune_pause.mp3` },
+      { id: `f_ex_16`, eng: `do you need a break?`, target: `t’as besoin d’une pause ?`, audio: `french_audio/exercise/16_tas_besoin_dune_pause.mp3` },
+      { id: `f_ex_17`, eng: `was that hard/difficult?`, target: `c’était dur ?`, audio: `french_audio/exercise/17_cetait_dur.mp3` },
+      { id: `f_ex_18`, eng: `do you want water?`, target: `tu veux de l’eau ?`, audio: `french_audio/exercise/18_tu_veux_de_leau.mp3` },
+      { id: `f_ex_19`, eng: `the water fountain is over there.`, target: `la fontaine à eau est là-bas.`, audio: `french_audio/exercise/19_la_fontaine_a_eau_est_la_bas.mp3` },
+      { id: `f_ex_20`, eng: `the water fountain is there.`, target: `la fontaine à eau est là.`, audio: `french_audio/exercise/20_la_fontaine_a_eau_est_la.mp3` },
+      { id: `f_a_05`, eng: `i’m going to work out now.`, target: `je vais m’entraîner là.`, audio: `french_audio/afternoon/05_je_vais_mentrainer_la.mp3` },
+      { id: `f_a_06`, eng: `i’m going to climb now.`, target: `je vais grimper là.`, audio: `french_audio/afternoon/06_je_vais_grimper_la.mp3` },
+      { id: `f_a_13`, eng: `how are you feeling?`, target: `tu te sens comment ?`, audio: `french_audio/afternoon/13_tu_te_sens_comment.mp3` },
+      { id: `f_a_14`, eng: `i’m feeling good.`, target: `je me sens bien.`, audio: `french_audio/afternoon/14_je_me_sens_bien.mp3` },
+      { id: `f_a_15`, eng: `i’m feeling tired.`, target: `je me sens fatigué.`, audio: `french_audio/afternoon/15_je_me_sens_fatigue.mp3` },
+      { id: `f_a_16`, eng: `i’m sore.`, target: `j’ai des courbatures.`, audio: `french_audio/afternoon/16_jai_des_courbatures.mp3` },
+      { id: `f_a_24`, eng: `do you have a water bottle?`, target: `t’as une gourde ?`, audio: `french_audio/afternoon/24_tas_une_gourde.mp3` },
+      { id: `f_a_25`, eng: `i have a water bottle.`, target: `j’ai une gourde.`, audio: `french_audio/afternoon/25_jai_une_gourde.mp3` }
+    ],
+    brooklyn_boulders: [
+      { id: `f_m_27`, eng: `i’m going to bkb.`, target: `je vais à bkb.`, audio: `french_audio/morning/27_je_vais_a_bkb.mp3` },
+      { id: `f_a_02`, eng: `i just got to the gym.`, target: `je viens d’arriver à la salle.`, audio: `french_audio/afternoon/02_je_viens_darriver_a_la_salle.mp3` },
+      { id: `f_a_07`, eng: `my shift starts soon.`, target: `mon shift commence bientôt.`, audio: `french_audio/afternoon/07_mon_shift_commence_bientot.mp3` },
+      { id: `f_a_08`, eng: `my shift starts at four.`, target: `mon shift commence à quatre heures.`, audio: `french_audio/afternoon/08_mon_shift_commence_a_quatre_heures.mp3` },
+      { id: `f_a_09`, eng: `my shift starts at four thirty.`, target: `mon shift commence à quatre heures et demie.`, audio: `french_audio/afternoon/09_mon_shift_commence_a_quatre_heures_et_.mp3` },
+      { id: `f_e_08`, eng: `thank you for your work today.`, target: `merci pour ton boulot aujourd’hui.`, audio: `french_audio/evening/08_merci_pour_ton_boulot_aujourdhui.mp3` },
+      { id: `f_e_09`, eng: `thank you for your work.`, target: `merci pour ton boulot.`, audio: `french_audio/evening/09_merci_pour_ton_boulot.mp3` },
+      { id: `f_e_14`, eng: `thank you for coming.`, target: `merci d’être venu.`, audio: `french_audio/evening/14_merci_detre_venu.mp3` },
+      { id: `f_bb_01`, eng: `good job.`, target: `bien joué !`, audio: `` },
+      { id: `f_a_10`, eng: `how’s your climbing going?`, target: `l’escalade, ça va ?`, audio: `french_audio/afternoon/10_lescalade_ca_va.mp3` },
+      { id: `f_a_11`, eng: `my climbing is going well.`, target: `l’escalade se passe bien.`, audio: `french_audio/afternoon/11_lescalade_se_passe_bien.mp3` },
+      { id: `f_a_12`, eng: `i’m still a little injured.`, target: `je suis encore un peu blessé.`, audio: `french_audio/afternoon/12_je_suis_encore_un_peu_blesse.mp3` },
+      { id: `f_a_17`, eng: `you’re injured?`, target: `t’es blessé ?`, audio: `french_audio/afternoon/17_tes_blesse.mp3` },
+      { id: `f_a_18`, eng: `just my finger.`, target: `c’est juste mon doigt.`, audio: `french_audio/afternoon/18_cest_juste_mon_doigt.mp3` },
+      { id: `f_a_19`, eng: `just my wrist.`, target: `c’est juste mon poignet.`, audio: `french_audio/afternoon/19_cest_juste_mon_poignet.mp3` },
+      { id: `f_e_13`, eng: `good climbing session!`, target: `belle session !`, audio: `french_audio/evening/13_belle_session.mp3` }
+    ],
+    law_firm: [
+      { id: `f_m_25`, eng: `i’m going to work.`, target: `je vais au boulot.`, audio: `french_audio/morning/25_je_vais_au_boulot.mp3` },
+      { id: `f_m_28`, eng: `i’m going to the law firm.`, target: `je vais au cabinet.`, audio: `french_audio/morning/28_je_vais_au_cabinet.mp3` },
+      { id: `f_m_29`, eng: `i’m going to the office.`, target: `je vais au bureau.`, audio: `french_audio/morning/29_je_vais_au_bureau.mp3` },
+      { id: `f_a_03`, eng: `i just got to the law firm.`, target: `je viens d’arriver au cabinet.`, audio: `french_audio/afternoon/03_je_viens_darriver_au_cabinet.mp3` }
+    ],
+    transit: [
+      { id: `f_m_20`, eng: `i’m walking to the bus stop.`, target: `je marche vers l’arrêt de bus.`, audio: `french_audio/morning/20_je_marche_vers_larret_de_bus.mp3` },
+      { id: `f_m_21`, eng: `i’m taking the bus.`, target: `je prends le bus.`, audio: `french_audio/morning/21_je_prends_le_bus.mp3` },
+      { id: `f_m_22`, eng: `i’m on the train.`, target: `je suis dans le métro.`, audio: `french_audio/morning/22_je_suis_dans_le_metro.mp3` },
+      { id: `f_m_23`, eng: `i’m taking the e train.`, target: `je prends le e.`, audio: `french_audio/morning/23_je_prends_le_e.mp3` },
+      { id: `f_m_24`, eng: `i’m taking the f train.`, target: `je prends le f.`, audio: `french_audio/morning/24_je_prends_le_f.mp3` },
+      { id: `f_e_07`, eng: `i’m taking the 7 train.`, target: `je prends le 7.`, audio: `french_audio/evening/07_je_prends_le_7.mp3` },
+      { id: `f_a_01`, eng: `i just got off the train.`, target: `je viens de descendre du métro.`, audio: `french_audio/afternoon/01_je_viens_de_descendre_du_metro.mp3` },
+      { id: `f_e_04`, eng: `what train are you taking?`, target: `tu prends quelle ligne ?`, audio: `french_audio/evening/04_tu_prends_quelle_ligne.mp3` },
+      { id: `f_e_05`, eng: `i’m taking the e train.`, target: `je prends le e.`, audio: `french_audio/evening/05_je_prends_le_e.mp3` },
+      { id: `f_e_06`, eng: `i’m taking the f train.`, target: `je prends le f.`, audio: `french_audio/evening/06_je_prends_le_f.mp3` }
+    ],
+    food: [
+      { id: `f_m_15`, eng: `are you going to eat breakfast at home?`, target: `te manges ici ce matin ?`, audio: `french_audio/morning/15_te_manges_ici_ce_matin.mp3` },
+      { id: `f_m_16`, eng: `probably not.`, target: `probablement pas.`, audio: `french_audio/morning/16_probablement_pas.mp3` },
+      { id: `f_m_17`, eng: `there’s nothing at home.`, target: `y’a rien chez moi.`, audio: `french_audio/morning/17_ya_rien_chez_moi.mp3` },
+      { id: `f_m_18`, eng: `i’ll grab something outside.`, target: `je vais prendre quelque chose dehors.`, audio: `french_audio/morning/18_je_vais_prendre_quelque_chose_dehors.mp3` },
+      { id: `f_a_20`, eng: `what do you want to eat?`, target: `t’as envie de manger quoi ?`, audio: `french_audio/afternoon/20_tas_envie_de_manger_quoi.mp3` },
+      { id: `f_a_21`, eng: `did you eat?`, target: `t’as mangé ?`, audio: `french_audio/afternoon/21_tas_mange.mp3` },
+      { id: `f_a_22`, eng: `i’m going to eat.`, target: `je vais manger.`, audio: `french_audio/afternoon/22_je_vais_manger.mp3` },
+      { id: `f_a_23`, eng: `i want to go to the food court.`, target: `je veux aller au food court.`, audio: `french_audio/afternoon/23_je_veux_aller_au_food_court.mp3` }
+    ]
+  },
+  japanese: {
+    morning: [
+      {
+        id: `j_m_01`,
+        eng: `how did you sleep?`,
+        casual: { kanji: `よく眠れた？`, kana: `よくねむれた？`, romaji: `yoku nemureta?` },
+        polite: { kanji: `よく眠れましたか？`, kana: `よくねむれましたか？`, romaji: `yoku nemuremashita ka?` },
+        audioCasual: `japanese_audio/morning/01_casual_yoku_nemureta.mp3`,
+        audioPolite: `japanese_audio/morning/01_polite_yoku_nemuremashita_ka.mp3`
+      },
+      {
+        id: `j_m_02`,
+        eng: `i slept well.`,
+        casual: { kanji: `よく眠れた。`, kana: `よくねむれた。`, romaji: `yoku nemureta.` },
+        polite: { kanji: `よく眠れました。`, kana: `よくねむれました。`, romaji: `yoku nemuremashita.` },
+        audioCasual: `japanese_audio/morning/02_casual_yoku_nemureta.mp3`,
+        audioPolite: `japanese_audio/morning/02_polite_yoku_nemuremashita.mp3`
+      },
+      {
+        id: `j_m_03`,
+        eng: `i didn’t get enough sleep.`,
+        casual: { kanji: `あんまり眠れなかった。`, kana: `あんまりねむれなかった。`, romaji: `anmari nemurenakatta.` },
+        polite: { kanji: `あまり眠れませんでした。`, kana: `あまりねむれませんでした。`, romaji: `amari nemuremasen deshita.` },
+        audioCasual: `japanese_audio/morning/03_casual_anmari_nemurenakatta.mp3`,
+        audioPolite: `japanese_audio/morning/03_polite_amari_nemuremasen_deshita.mp3`
+      },
+      {
+        id: `j_m_04`,
+        eng: `i had weird dreams.`,
+        casual: { kanji: `変な夢を見た。`, kana: `へんなゆめをみた。`, romaji: `hen na yume wo mita.` },
+        polite: { kanji: `変な夢を見ました。`, kana: `へんなゆめをみました。`, romaji: `hen na yume wo mimashita.` },
+        audioCasual: `japanese_audio/morning/04_casual_hen_na_yume_wo_mita.mp3`,
+        audioPolite: `japanese_audio/morning/04_polite_hen_na_yume_wo_mimashita.mp3`
+      },
+      {
+        id: `j_m_05`,
+        eng: `did you brush your teeth yet?`,
+        casual: { kanji: `もう歯磨きした？`, kana: `もうはみがきした？`, romaji: `mou hamigaki shita?` },
+        polite: { kanji: `もう歯磨きしましたか？`, kana: `もうはみがきしましたか？`, romaji: `mou hamigaki shimashita ka?` },
+        audioCasual: `japanese_audio/morning/05_casual_mou_hamigaki_shita.mp3`,
+        audioPolite: `japanese_audio/morning/05_polite_mou_hamigaki_shimashita_ka.mp3`
+      },
+      {
+        id: `j_m_06`,
+        eng: `i’m going to brush my teeth now.`,
+        casual: { kanji: `今から歯磨きする。`, kana: `いまからはみがきする。`, romaji: `ima kara hamigaki suru.` },
+        polite: { kanji: `今から歯磨きします。`, kana: `いまからはみがきします。`, romaji: `ima kara hamigaki shimasu.` },
+        audioCasual: `japanese_audio/morning/06_casual_ima_kara_hamigaki_suru.mp3`,
+        audioPolite: `japanese_audio/morning/06_polite_ima_kara_hamigaki_shimasu.mp3`
+      },
+      {
+        id: `j_m_07`,
+        eng: `are you going to shower?`,
+        casual: { kanji: `シャワー浴びる？`, kana: `シャワーあびる？`, romaji: `shawaa abiru?` },
+        polite: { kanji: `シャワー浴びますか？`, kana: `シャワーあびますか？`, romaji: `shawaa abimasu ka?` },
+        audioCasual: `japanese_audio/morning/07_casual_shawaa_abiru.mp3`,
+        audioPolite: `japanese_audio/morning/07_polite_shawaa_abimasu_ka.mp3`
+      },
+      {
+        id: `j_m_08`,
+        eng: `i showered last night.`,
+        casual: { kanji: `昨日の夜シャワー浴びた。`, kana: `きのうのよるシャワーあびた。`, romaji: `kinou no yoru shawaa abita.` },
+        polite: { kanji: `昨日の夜シャワーを浴びました。`, kana: `きのうのよるシャワーをあびました。`, romaji: `kinou no yoru shawaa wo abimashita.` },
+        audioCasual: `japanese_audio/morning/08_casual_kinou_no_yoru_shawaa_abita.mp3`,
+        audioPolite: `japanese_audio/morning/08_polite_kinou_no_yoru_shawaa_wo_abimashita.mp3`
+      },
+      {
+        id: `j_m_09`,
+        eng: `i shower at night.`,
+        casual: { kanji: `夜にシャワー浴びる。`, kana: `よるにシャワーあびる。`, romaji: `yoru ni shawaa abiru.` },
+        polite: { kanji: `夜にシャワーを浴びます。`, kana: `よるにシャワーをあびます。`, romaji: `yoru ni shawaa wo abimasu.` },
+        audioCasual: `japanese_audio/morning/09_casual_yoru_ni_shawaa_abiru.mp3`,
+        audioPolite: `japanese_audio/morning/09_polite_yoru_ni_shawaa_wo_abimasu.mp3`
+      },
+      {
+        id: `j_m_10`,
+        eng: `i’m getting dressed now.`,
+        casual: { kanji: `今から着替える。`, kana: `いまからきがえる。`, romaji: `ima kara kigaeru.` },
+        polite: { kanji: `今から着替えます。`, kana: `いまからきがえます。`, romaji: `ima kara kigaemasu.` },
+        audioCasual: `japanese_audio/morning/10_casual_ima_kara_kigaeru.mp3`,
+        audioPolite: `japanese_audio/morning/10_polite_ima_kara_kigaemasu.mp3`
+      },
+      {
+        id: `j_m_11`,
+        eng: `i’m doing my skincare now.`,
+        casual: { kanji: `今からスキンケアする。`, kana: `いまからスキンケアする。`, romaji: `ima kara sukinkea suru.` },
+        polite: { kanji: `今からスキンケアします。`, kana: `いまからスキンケアします。`, romaji: `ima kara sukinkea shimasu.` },
+        audioCasual: `japanese_audio/morning/11_casual_ima_kara_sukinkea_suru.mp3`,
+        audioPolite: `japanese_audio/morning/11_polite_ima_kara_sukinkea_shimasu.mp3`
+      },
+      {
+        id: `j_m_12`,
+        eng: `i’m packing my bag now.`,
+        casual: { kanji: `今からカバンの準備する。`, kana: `いまからカバンのじゅんびする。`, romaji: `ima kara kaban no junbi suru.` },
+        polite: { kanji: `今からカバンの準備をします。`, kana: `いまからカバンのじゅんびをします。`, romaji: `ima kara kaban no junbi wo shimasu.` },
+        audioCasual: `japanese_audio/morning/12_casual_ima_kara_kaban_no_junbi_suru.mp3`,
+        audioPolite: `japanese_audio/morning/12_polite_ima_kara_kaban_no_junbi_wo_shimasu.mp3`
+      },
+      {
+        id: `j_m_13`,
+        eng: `what are you packing?`,
+        casual: { kanji: `何を持っていくの？`, kana: `なにをもっていくの？`, romaji: `nani wo motte iku no?` },
+        polite: { kanji: `何を持っていきますか？`, kana: `なにをもっていきますか？`, romaji: `nani wo motte ikimasu ka?` },
+        audioCasual: `japanese_audio/morning/13_casual_nani_wo_motte_iku_no.mp3`,
+        audioPolite: `japanese_audio/morning/13_polite_nani_wo_motte_ikimasu_ka.mp3`
+      },
+      {
+        id: `j_m_14`,
+        eng: `i’m bringing...`,
+        casual: { kanji: `持っていくよ。`, kana: `もっていくよ。`, romaji: `motte iku yo.` },
+        polite: { kanji: `持っていきます。`, kana: `もっていきます。`, romaji: `motte ikimasu.` },
+        audioCasual: `japanese_audio/morning/14_casual_motte_iku_yo.mp3`,
+        audioPolite: `japanese_audio/morning/14_polite_motte_ikimasu.mp3`
+      },
+      {
+        id: `j_m_15`,
+        eng: `i’m bringing my laptop.`,
+        casual: { kanji: `ノートパソコンを持っていく。`, kana: `ノートパソコンをもっていく。`, romaji: `nooto pasokon wo motte iku.` },
+        polite: { kanji: `ノートパソコンを持っていきます。`, kana: `ノートパソコンをもっていきます。`, romaji: `nooto pasokon wo motte ikimasu.` },
+        audioCasual: `japanese_audio/morning/15_casual_nooto_pasokon_wo_motte_iku.mp3`,
+        audioPolite: `japanese_audio/morning/15_polite_nooto_pasokon_wo_motte_ikimasu.mp3`
+      },
+      {
+        id: `j_m_16`,
+        eng: `i’m bringing my notebooks.`,
+        casual: { kanji: `ノートを持っていく。`, kana: `ノートをもっていく。`, romaji: `nooto wo motte iku.` },
+        polite: { kanji: `ノートを持っていきます。`, kana: `ノートをもっていきます。`, romaji: `nooto wo motte ikimasu.` },
+        audioCasual: `japanese_audio/morning/16_casual_nooto_wo_motte_iku.mp3`,
+        audioPolite: `japanese_audio/morning/16_polite_nooto_wo_motte_ikimasu.mp3`
+      },
+      {
+        id: `j_m_17`,
+        eng: `i’m bringing my headphones.`,
+        casual: { kanji: `ヘッドホンを持っていく。`, kana: `ヘッドホンをもっていく。`, romaji: `heddohon wo motte iku.` },
+        polite: { kanji: `ヘッドホンを持っていきます。`, kana: `ヘッドホンをもっていきます。`, romaji: `heddohon wo motte ikimasu.` },
+        audioCasual: `japanese_audio/morning/17_casual_heddohon_wo_motte_iku.mp3`,
+        audioPolite: `japanese_audio/morning/17_polite_heddohon_wo_motte_ikimasu.mp3`
+      },
+      {
+        id: `j_m_18`,
+        eng: `i’m bringing a battery bank.`,
+        casual: { kanji: `モバイルバッテリーを持っていく。`, kana: `モバイルバッテリーをもっていく。`, romaji: `mobairu batterii wo motte iku.` },
+        polite: { kanji: `モバイルバッテリーを持っていきます。`, kana: `モバイルバッテリーをもっていきます。`, romaji: `mobairu batterii wo motte ikimasu.` },
+        audioCasual: `japanese_audio/morning/18_casual_mobairu_batterii_wo_motte_iku.mp3`,
+        audioPolite: `japanese_audio/morning/18_polite_mobairu_batterii_wo_motte_ikimasu.mp3`
+      },
+      {
+        id: `j_m_19`,
+        eng: `where are you going?`,
+        casual: { kanji: `どこ行くの？`, kana: `どこいくの？`, romaji: `doko iku no?` },
+        polite: { kanji: `どこに行きますか？`, kana: `どこにいきますか？`, romaji: `doko ni ikimasu ka?` },
+        audioCasual: `japanese_audio/morning/19_casual_doko_iku_no.mp3`,
+        audioPolite: `japanese_audio/morning/19_polite_doko_ni_ikimasu_ka.mp3`
+      },
+      {
+        id: `j_m_20`,
+        eng: `i’m going to my house.`,
+        casual: { kanji: `家に帰る。`, kana: `いえにかえる。`, romaji: `ie ni kaeru.` },
+        polite: { kanji: `家に帰ります。`, kana: `いえにかえります。`, romaji: `ie ni kaerimasu.` },
+        audioCasual: `japanese_audio/morning/20_casual_ie_ni_kaeru.mp3`,
+        audioPolite: `japanese_audio/morning/20_polite_ie_ni_kaerimasu.mp3`
+      }
+    ],
+    afternoon: [
+      {
+        id: `j_a_01`,
+        eng: `what are you going to do now?`,
+        casual: { kanji: `今から何するの？`, kana: `いまからなにするの？`, romaji: `ima kara nani suru no?` },
+        polite: { kanji: `今から何をしますか？`, kana: `いまからなにをしますか？`, romaji: `ima kara nani wo shimasu ka?` },
+        audioCasual: `japanese_audio/afternoon/01_casual_ima_kara_nani_suru_no.mp3`,
+        audioPolite: `japanese_audio/afternoon/01_polite_ima_kara_nani_wo_shimasu_ka.mp3`
+      }
+    ],
+    evening: [
+      {
+        id: `j_e_01`,
+        eng: `are you going home?`,
+        casual: { kanji: `家帰るの？`, kana: `いえかえるの？`, romaji: `ie kaeru no?` },
+        polite: { kanji: `家に帰りますか？`, kana: `いえにかえりますか？`, romaji: `ie ni kaerimasu ka?` },
+        audioCasual: `japanese_audio/evening/01_casual_ie_kaeru_no.mp3`,
+        audioPolite: `japanese_audio/evening/01_polite_ie_ni_kaerimasu_ka.mp3`
+      },
+      {
+        id: `j_e_02`,
+        eng: `i am going home now.`,
+        casual: { kanji: `今から家に帰る。`, kana: `いまからいえにかえる。`, romaji: `ima kara ie ni kaeru.` },
+        polite: { kanji: `今から家に帰ります。`, kana: `いまからいえにかえります。`, romaji: `ima kara ie ni kaerimasu.` },
+        audioCasual: `japanese_audio/evening/02_casual_ima_kara_ie_ni_kaeru.mp3`,
+        audioPolite: `japanese_audio/evening/02_polite_ima_kara_ie_ni_kaerimasu.mp3`
+      },
+      {
+        id: `j_e_03`,
+        eng: `i am going home soon.`,
+        casual: { kanji: `もうすぐ家に帰る。`, kana: `もうすぐいえにかえる。`, romaji: `mou sugu ie ni kaeru.` },
+        polite: { kanji: `もうすぐ家に帰ります。`, kana: `もうすぐいえにかえります。`, romaji: `mou sugu ie ni kaerimasu.` },
+        audioCasual: `japanese_audio/evening/03_casual_mou_sugu_ie_ni_kaeru.mp3`,
+        audioPolite: `japanese_audio/evening/03_polite_mou_sugu_ie_ni_kaerimasu.mp3`
+      },
+      {
+        id: `j_e_04`,
+        eng: `i can’t wait to sleep.`,
+        casual: { kanji: `早く寝たい。`, kana: `はやくねたい。`, romaji: `hayaku netai.` },
+        polite: { kanji: `早く寝たいです。`, kana: `はやくねたいです。`, romaji: `hayaku netai desu.` },
+        audioCasual: `japanese_audio/evening/04_casual_hayaku_netai.mp3`,
+        audioPolite: `japanese_audio/evening/04_polite_hayaku_netai_desu.mp3`
+      },
+      {
+        id: `j_e_05`,
+        eng: `i’m so exhausted.`,
+        casual: { kanji: `めっちゃ疲れた。`, kana: `めっちゃつかれた。`, romaji: `meccha tsukareta.` },
+        polite: { kanji: `とても疲れました。`, kana: `とてもつかれました。`, romaji: `totemo tsukaremashita.` },
+        audioCasual: `japanese_audio/evening/05_casual_meccha_tsukareta.mp3`,
+        audioPolite: `japanese_audio/evening/05_polite_totemo_tsukaremashita.mp3`
+      },
+      {
+        id: `j_e_06`,
+        eng: `i want to go home.`,
+        casual: { kanji: `家に帰りたい。`, kana: `いえにかえりたい。`, romaji: `ie ni kaeritai.` },
+        polite: { kanji: `家に帰りたいです。`, kana: `いえにかえりたいです。`, romaji: `ie ni kaeritai desu.` },
+        audioCasual: `japanese_audio/evening/06_casual_ie_ni_kaeritai.mp3`,
+        audioPolite: `japanese_audio/evening/06_polite_ie_ni_kaeritai_desu.mp3`
+      },
+      {
+        id: `j_e_07`,
+        eng: `get home safe.`,
+        casual: { kanji: `気をつけて帰ってね。`, kana: `きをつけてかえってね。`, romaji: `ki wo tsukete kaette ne.` },
+        polite: { kanji: `気をつけてお帰りください。`, kana: `きをつけておかえりください。`, romaji: `ki wo tsukete okaeri kudasai.` },
+        audioCasual: `japanese_audio/evening/07_casual_ki_wo_tsukete_kaette_ne.mp3`,
+        audioPolite: `japanese_audio/evening/07_polite_ki_wo_tsukete_okaeri_kudasai.mp3`
+      },
+      {
+        id: `j_e_08`,
+        eng: `have a good one.`,
+        casual: { kanji: `じゃあね、良い一日を。`, kana: `じゃあね、よいいちにちを。`, romaji: `jaa ne, yoi ichinichi wo.` },
+        polite: { kanji: `良い一日をお過ごしください。`, kana: `よいいちにちをおすごしください。`, romaji: `yoi ichinichi wo osugoshi kudasai.` },
+        audioCasual: `japanese_audio/evening/08_casual_jaa_ne_yoi_ichinichi_wo.mp3`,
+        audioPolite: `japanese_audio/evening/08_polite_yoi_ichinichi_wo_osugoshi_kudasai.mp3`
+      },
+      {
+        id: `j_e_09`,
+        eng: `have a good night.`,
+        casual: { kanji: `おやすみ。`, kana: `おやすみ。`, romaji: `oyasumi.` },
+        polite: { kanji: `おやすみなさい。`, kana: `おやすみなさい。`, romaji: `oyasumi nasai.` },
+        audioCasual: `japanese_audio/evening/09_casual_oyasumi.mp3`,
+        audioPolite: `japanese_audio/evening/09_polite_oyasumi_nasai.mp3`
+      },
+      {
+        id: `j_e_10`,
+        eng: `see you tomorrow.`,
+        casual: { kanji: `また明日。`, kana: `またあした。`, romaji: `mata ashita.` },
+        polite: { kanji: `また明日お会いしましょう。`, kana: `またあしたおあいしましょう。`, romaji: `mata ashita oai shimashou.` },
+        audioCasual: `japanese_audio/evening/10_casual_mata_ashita.mp3`,
+        audioPolite: `japanese_audio/evening/10_polite_mata_ashita_oai_shimashou.mp3`
+      }
+    ],
+    exercise: [
+      {
+        id: `j_ex_01`,
+        eng: `i am going on a walk.`,
+        casual: { kanji: `散歩に行く。`, kana: `さんぽにいく。`, romaji: `sanpo ni iku.` },
+        polite: { kanji: `散歩に行きます。`, kana: `さんぽにいきます。`, romaji: `sanpo ni ikimasu.` },
+        audioCasual: `japanese_audio/exercise/01_casual_sanpo_ni_iku.mp3`,
+        audioPolite: `japanese_audio/exercise/01_polite_sanpo_ni_ikimasu.mp3`
+      },
+      {
+        id: `j_ex_02`,
+        eng: `i want to go on a walk.`,
+        casual: { kanji: `散歩に行きたい。`, kana: `さんぽにいきたい。`, romaji: `sanpo ni ikitai.` },
+        polite: { kanji: `散歩に行きたいです。`, kana: `さんぽにいきたいです。`, romaji: `sanpo ni ikitai desu.` },
+        audioCasual: `japanese_audio/exercise/02_casual_sanpo_ni_ikitai.mp3`,
+        audioPolite: `japanese_audio/exercise/02_polite_sanpo_ni_ikitai_desu.mp3`
+      },
+      {
+        id: `j_ex_03`,
+        eng: `i am going on a run.`,
+        casual: { kanji: `走りに行く。`, kana: `はしりにいく。`, romaji: `hashiri ni iku.` },
+        polite: { kanji: `走りに行きます。`, kana: `はしりにいきます。`, romaji: `hashiri ni ikimasu.` },
+        audioCasual: `japanese_audio/exercise/03_casual_hashiri_ni_iku.mp3`,
+        audioPolite: `japanese_audio/exercise/03_polite_hashiri_ni_ikimasu.mp3`
+      },
+      {
+        id: `j_ex_04`,
+        eng: `i want to go on a run.`,
+        casual: { kanji: `走りに行きたい。`, kana: `はしりにいきたい。`, romaji: `hashiri ni ikitai.` },
+        polite: { kanji: `走りに行きたいです。`, kana: `はしりにいきたいです。`, romaji: `hashiri ni ikitai desu.` },
+        audioCasual: `japanese_audio/exercise/04_casual_hashiri_ni_ikitai.mp3`,
+        audioPolite: `japanese_audio/exercise/04_polite_hashiri_ni_ikitai_desu.mp3`
+      },
+      {
+        id: `j_ex_05`,
+        eng: `i am going to the gym.`,
+        casual: { kanji: `ジムに行く。`, kana: `ジムにいく。`, romaji: `jimu ni iku.` },
+        polite: { kanji: `ジムに行きます。`, kana: `ジムにいきます。`, romaji: `jimu ni ikimasu.` },
+        audioCasual: `japanese_audio/exercise/05_casual_jimu_ni_iku.mp3`,
+        audioPolite: `japanese_audio/exercise/05_polite_jimu_ni_ikimasu.mp3`
+      },
+      {
+        id: `j_ex_06`,
+        eng: `i want to go to the gym today.`,
+        casual: { kanji: `今日ジムに行きたい。`, kana: `きょうジムにいきたい。`, romaji: `kyou jimu ni ikitai.` },
+        polite: { kanji: `今日ジムに行きたいです。`, kana: `きょうジムにいきたいです。`, romaji: `kyou jimu ni ikitai desu.` },
+        audioCasual: `japanese_audio/exercise/06_casual_kyou_jimu_ni_ikitai.mp3`,
+        audioPolite: `japanese_audio/exercise/06_polite_kyou_jimu_ni_ikitai_desu.mp3`
+      },
+      {
+        id: `j_ex_07`,
+        eng: `i am going climbing today.`,
+        casual: { kanji: `今日クライミングに行く。`, kana: `きょうクライミングにいく。`, romaji: `kyou kuraimingu ni iku.` },
+        polite: { kanji: `今日クライミングに行きます。`, kana: `きょうクライミングにいきます。`, romaji: `kyou kuraimingu ni ikimasu.` },
+        audioCasual: `japanese_audio/exercise/07_casual_kyou_kuraimingu_ni_iku.mp3`,
+        audioPolite: `japanese_audio/exercise/07_polite_kyou_kuraimingu_ni_ikimasu.mp3`
+      },
+      {
+        id: `j_ex_08`,
+        eng: `i am climbing.`,
+        casual: { kanji: `クライミングしてる。`, kana: `クライミングしてる。`, romaji: `kuraimingu shiteru.` },
+        polite: { kanji: `クライミングしています。`, kana: `クライミングしています。`, romaji: `kuraimingu shiteimasu.` },
+        audioCasual: `japanese_audio/exercise/08_casual_kuraimingu_shiteru.mp3`,
+        audioPolite: `japanese_audio/exercise/08_polite_kuraimingu_shiteimasu.mp3`
+      },
+      {
+        id: `j_ex_09`,
+        eng: `i want to go climbing.`,
+        casual: { kanji: `クライミングに行きたい。`, kana: `クライミングにいきたい。`, romaji: `kuraimingu ni ikitai.` },
+        polite: { kanji: `クライミングに行きたいです。`, kana: `クライミングにいきたいです。`, romaji: `kuraimingu ni ikitai desu.` },
+        audioCasual: `japanese_audio/exercise/09_casual_kuraimingu_ni_ikitai.mp3`,
+        audioPolite: `japanese_audio/exercise/09_polite_kuraimingu_ni_ikitai_desu.mp3`
+      },
+      {
+        id: `j_ex_10`,
+        eng: `i am climbing outdoors/outside.`,
+        casual: { kanji: `外でクライミングしてる。`, kana: `そとでクライミングしてる。`, romaji: `soto de kuraimingu shiteru.` },
+        polite: { kanji: `外でクライミングしています。`, kana: `そとでクライミングしています。`, romaji: `soto de kuraimingu shiteimasu.` },
+        audioCasual: `japanese_audio/exercise/10_casual_soto_de_kuraimingu_shiteru.mp3`,
+        audioPolite: `japanese_audio/exercise/10_polite_soto_de_kuraimingu_shiteimasu.mp3`
+      },
+      {
+        id: `j_ex_11`,
+        eng: `i am thirsty.`,
+        casual: { kanji: `のど渇いた。`, kana: `のどかわいた。`, romaji: `nodo kawaita.` },
+        polite: { kanji: `のどが渇きました。`, kana: `のどがかわきました。`, romaji: `nodo ga kawakimashita.` },
+        audioCasual: `japanese_audio/exercise/11_casual_nodo_kawaita.mp3`,
+        audioPolite: `japanese_audio/exercise/11_polite_nodo_ga_kawakimashita.mp3`
+      },
+      {
+        id: `j_ex_12`,
+        eng: `i am hungry.`,
+        casual: { kanji: `お腹空いた。`, kana: `おなかすいた。`, romaji: `onaka suita.` },
+        polite: { kanji: `お腹が空きました。`, kana: `おなかがすきました。`, romaji: `onaka ga sukimashita.` },
+        audioCasual: `japanese_audio/exercise/12_casual_onaka_suita.mp3`,
+        audioPolite: `japanese_audio/exercise/12_polite_onaka_ga_sukimashita.mp3`
+      },
+      {
+        id: `j_ex_13`,
+        eng: `i am very thirsty.`,
+        casual: { kanji: `すごくのど渇いた。`, kana: `すごくのどかわいた。`, romaji: `sugoku nodo kawaita.` },
+        polite: { kanji: `とてものどが渇きました。`, kana: `とてものどがかわきました。`, romaji: `totemo nodo ga kawakimashita.` },
+        audioCasual: `japanese_audio/exercise/13_casual_sugoku_nodo_kawaita.mp3`,
+        audioPolite: `japanese_audio/exercise/13_polite_totemo_nodo_ga_kawakimashita.mp3`
+      },
+      {
+        id: `j_ex_14`,
+        eng: `i am very hungry.`,
+        casual: { kanji: `すごくお腹空いた。`, kana: `すごくおなかすいた。`, romaji: `sugoku onaka suita.` },
+        polite: { kanji: `とてもお腹が空きました。`, kana: `とてもおなかがすきました。`, romaji: `totemo onaka ga sukimashita.` },
+        audioCasual: `japanese_audio/exercise/14_casual_sugoku_onaka_suita.mp3`,
+        audioPolite: `japanese_audio/exercise/14_polite_totemo_onaka_ga_sukimashita.mp3`
+      },
+      {
+        id: `j_ex_15`,
+        eng: `i need a break.`,
+        casual: { kanji: `休憩したい。`, kana: `きゅうけいしたい。`, romaji: `kyuukei shitai.` },
+        polite: { kanji: `休憩したいです。`, kana: `きゅうけいしたいです。`, romaji: `kyuukei shitai desu.` },
+        audioCasual: `japanese_audio/exercise/15_casual_kyuukei_shitai.mp3`,
+        audioPolite: `japanese_audio/exercise/15_polite_kyuukei_shitai_desu.mp3`
+      },
+      {
+        id: `j_ex_16`,
+        eng: `do you need a break?`,
+        casual: { kanji: `休憩する？`, kana: `きゅうけいする？`, romaji: `kyuukei suru?` },
+        polite: { kanji: `休憩しますか？`, kana: `きゅうけいしますか？`, romaji: `kyuukei shimasu ka?` },
+        audioCasual: `japanese_audio/exercise/16_casual_kyuukei_suru.mp3`,
+        audioPolite: `japanese_audio/exercise/16_polite_kyuukei_shimasu_ka.mp3`
+      },
+      {
+        id: `j_ex_17`,
+        eng: `was that hard/difficult?`,
+        casual: { kanji: `大変だった？`, kana: `たいへんだった？`, romaji: `taihen datta?` },
+        polite: { kanji: `大変でしたか？`, kana: `たいへんでしたか？`, romaji: `taihen deshita ka?` },
+        audioCasual: `japanese_audio/exercise/17_casual_taihen_datta.mp3`,
+        audioPolite: `japanese_audio/exercise/17_polite_taihen_deshita_ka.mp3`
+      },
+      {
+        id: `j_ex_18`,
+        eng: `do you want water?`,
+        casual: { kanji: `水いる？`, kana: `みずいる？`, romaji: `mizu iru?` },
+        polite: { kanji: `お水いりますか？`, kana: `おみずいりますか？`, romaji: `omizu irimasu ka?` },
+        audioCasual: `japanese_audio/exercise/18_casual_mizu_iru.mp3`,
+        audioPolite: `japanese_audio/exercise/18_polite_omizu_irimasu_ka.mp3`
+      },
+      {
+        id: `j_ex_19`,
+        eng: `the water fountain is over there.`,
+        casual: { kanji: `給水機あっちにあるよ。`, kana: `きゅうすいきあっちにあるよ。`, romaji: `kyuusuiki acchi ni aru yo.` },
+        polite: { kanji: `給水機はあちらにあります。`, kana: `きゅうすいきはあちらにあります。`, romaji: `kyuusuiki wa achira ni arimasu.` },
+        audioCasual: `japanese_audio/exercise/19_casual_kyuusuiki_acchi_ni_aru_yo.mp3`,
+        audioPolite: `japanese_audio/exercise/19_polite_kyuusuiki_wa_achira_ni_arimasu.mp3`
+      },
+      {
+        id: `j_ex_20`,
+        eng: `the water fountain is there.`,
+        casual: { kanji: `給水機そこにあるよ。`, kana: `きゅうすいきそこにあるよ。`, romaji: `kyuusuiki soko ni aru yo.` },
+        polite: { kanji: `給水機はそこにあります。`, kana: `きゅうすいきはそこにあります。`, romaji: `kyuusuiki wa soko ni arimasu.` },
+        audioCasual: `japanese_audio/exercise/20_casual_kyuusuiki_soko_ni_aru_yo.mp3`,
+        audioPolite: `japanese_audio/exercise/20_polite_kyuusuiki_wa_soko_ni_arimasu.mp3`
+      },
+      {
+        id: `j_ex_21`,
+        eng: `i’m going to work out now.`,
+        casual: { kanji: `今からトレーニングする。`, kana: `いまからトレーニングする。`, romaji: `ima kara toreeningu suru.` },
+        polite: { kanji: `今からトレーニングします。`, kana: `いまからトレーニングします。`, romaji: `ima kara toreeningu shimasu.` },
+        audioCasual: `japanese_audio/exercise/21_casual_ima_kara_toreeningu_suru.mp3`,
+        audioPolite: `japanese_audio/exercise/21_polite_ima_kara_toreeningu_shimasu.mp3`
+      },
+      {
+        id: `j_ex_22`,
+        eng: `i’m going to climb now.`,
+        casual: { kanji: `今からクライミングする。`, kana: `いまからクライミングする。`, romaji: `ima kara kuraimingu suru.` },
+        polite: { kanji: `今からクライミングします。`, kana: `いまからクライミングします。`, romaji: `ima kara kuraimingu shimasu.` },
+        audioCasual: `japanese_audio/exercise/22_casual_ima_kara_kuraimingu_suru.mp3`,
+        audioPolite: `japanese_audio/exercise/22_polite_ima_kara_kuraimingu_shimasu.mp3`
+      },
+      {
+        id: `j_ex_23`,
+        eng: `how are you feeling?`,
+        casual: { kanji: `調子どう？`, kana: `ちょうしどう？`, romaji: `choushi dou?` },
+        polite: { kanji: `調子はどうですか？`, kana: `ちょうしはどうですか？`, romaji: `choushi wa dou desu ka?` },
+        audioCasual: `japanese_audio/exercise/23_casual_choushi_dou.mp3`,
+        audioPolite: `japanese_audio/exercise/23_polite_choushi_wa_dou_desu_ka.mp3`
+      },
+      {
+        id: `j_ex_24`,
+        eng: `i’m feeling good.`,
+        casual: { kanji: `調子いいよ。`, kana: `ちょうしいいよ。`, romaji: `choushi ii yo.` },
+        polite: { kanji: `調子がいいです。`, kana: `ちょうしがいいです。`, romaji: `choushi ga ii desu.` },
+        audioCasual: `japanese_audio/exercise/24_casual_choushi_ii_yo.mp3`,
+        audioPolite: `japanese_audio/exercise/24_polite_choushi_ga_ii_desu.mp3`
+      },
+      {
+        id: `j_ex_25`,
+        eng: `i’m feeling tired.`,
+        casual: { kanji: `疲れてる。`, kana: `つかれてる。`, romaji: `tsukareteru.` },
+        polite: { kanji: `疲れています。`, kana: `つかれています。`, romaji: `tsukareteimasu.` },
+        audioCasual: `japanese_audio/exercise/25_casual_tsukareteru.mp3`,
+        audioPolite: `japanese_audio/exercise/25_polite_tsukareteimasu.mp3`
+      },
+      {
+        id: `j_ex_26`,
+        eng: `i’m sore.`,
+        casual: { kanji: `筋肉痛。`, kana: `きんにくつう。`, romaji: `kinniku tsuu.` },
+        polite: { kanji: `筋肉痛です。`, kana: `きんにくつうです。`, romaji: `kinniku tsuu desu.` },
+        audioCasual: `japanese_audio/exercise/26_casual_kinniku_tsuu.mp3`,
+        audioPolite: `japanese_audio/exercise/26_polite_kinniku_tsuu_desu.mp3`
+      },
+      {
+        id: `j_ex_27`,
+        eng: `do you have a water bottle?`,
+        casual: { kanji: `水筒持ってる？`, kana: `すいとうもってる？`, romaji: `suitou motteru?` },
+        polite: { kanji: `水筒を持っていますか？`, kana: `すいとうをもっていますか？`, romaji: `suitou wo motteimasu ka?` },
+        audioCasual: `japanese_audio/exercise/27_casual_suitou_motteru.mp3`,
+        audioPolite: `japanese_audio/exercise/27_polite_suitou_wo_motteimasu_ka.mp3`
+      },
+      {
+        id: `j_ex_28`,
+        eng: `i have a water bottle.`,
+        casual: { kanji: `水筒持ってる。`, kana: `すいとうもってる。`, romaji: `suitou motteru.` },
+        polite: { kanji: `水筒を持っています。`, kana: `すいとうをもっています。`, romaji: `suitou wo motteimasu.` },
+        audioCasual: `japanese_audio/exercise/28_casual_suitou_motteru.mp3`,
+        audioPolite: `japanese_audio/exercise/28_polite_suitou_wo_motteimasu.mp3`
+      }
+    ],
+    brooklyn_boulders: [
+      {
+        id: `j_bb_01`,
+        eng: `i’m going to bkb.`,
+        casual: { kanji: `bkbに行く。`, kana: `bkbにいく。`, romaji: `bkb ni iku.` },
+        polite: { kanji: `bkbに行きます。`, kana: `bkbにいきます。`, romaji: `bkb ni ikimasu.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/01_casual_bkb_ni_iku.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/01_polite_bkb_ni_ikimasu.mp3`
+      },
+      {
+        id: `j_bb_02`,
+        eng: `i just got to the gym.`,
+        casual: { kanji: `ジムに着いたところ。`, kana: `ジムについたところ。`, romaji: `jimu ni tsuita tokoro.` },
+        polite: { kanji: `ジムに着いたところです。`, kana: `ジムについたところです。`, romaji: `jimu ni tsuita tokoro desu.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/02_casual_jimu_ni_tsuita_tokoro.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/02_polite_jimu_ni_tsuita_tokoro_desu.mp3`
+      },
+      {
+        id: `j_bb_03`,
+        eng: `my shift starts soon.`,
+        casual: { kanji: `もうすぐシフト始まる。`, kana: `もうすぐシフトはじまる。`, romaji: `mou sugu shifuto hajimaru.` },
+        polite: { kanji: `もうすぐシフトが始まります。`, kana: `もうすぐシフトがはじまります。`, romaji: `mou sugu shifuto ga hajimarimasu.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/03_casual_mou_sugu_shifuto_hajimaru.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/03_polite_mou_sugu_shifuto_ga_hajimarimasu.mp3`
+      },
+      {
+        id: `j_bb_04`,
+        eng: `my shift starts at four.`,
+        casual: { kanji: `シフトは4時から。`, kana: `シフトはよじから。`, romaji: `shifuto wa yoji kara.` },
+        polite: { kanji: `シフトは4時からです。`, kana: `シフトはよじからです。`, romaji: `shifuto wa yoji kara desu.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/04_casual_shifuto_wa_yoji_kara.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/04_polite_shifuto_wa_yoji_kara_desu.mp3`
+      },
+      {
+        id: `j_bb_05`,
+        eng: `my shift starts at four thirty.`,
+        casual: { kanji: `シフトは4時半から。`, kana: `シフトはよじはんから。`, romaji: `shifuto wa yoji han kara.` },
+        polite: { kanji: `シフトは4時半からです。`, kana: `シフトはよじはんからです。`, romaji: `shifuto wa yoji han kara desu.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/05_casual_shifuto_wa_yoji_han_kara.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/05_polite_shifuto_wa_yoji_han_kara_desu.mp3`
+      },
+      {
+        id: `j_bb_06`,
+        eng: `thank you for your work today.`,
+        casual: { kanji: `今日もお疲れ様。`, kana: `きょうもおつかれさま。`, romaji: `kyou mo otsukaresama.` },
+        polite: { kanji: `本日もお疲れ様でした。`, kana: `ほんじつもおつかれさまでした。`, romaji: `honjitsu mo otsukaresama deshita.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/06_casual_kyou_mo_otsukaresama.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/06_polite_honjitsu_mo_otsukaresama_deshita.mp3`
+      },
+      {
+        id: `j_bb_07`,
+        eng: `thank you for your work.`,
+        casual: { kanji: `お疲れ様。`, kana: `おつかれさま。`, romaji: `otsukaresama.` },
+        polite: { kanji: `お疲れ様でした。`, kana: `おつかれさまでした。`, romaji: `otsukaresama deshita.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/07_casual_otsukaresama.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/07_polite_otsukaresama_deshita.mp3`
+      },
+      {
+        id: `j_bb_08`,
+        eng: `thank you for coming.`,
+        casual: { kanji: `来てくれてありがとう。`, kana: `きてくれてありがとう。`, romaji: `kite kurete arigatou.` },
+        polite: { kanji: `来ていただきありがとうございます。`, kana: `きていただきありがとうございます。`, romaji: `kite itadaki arigatou gozaimasu.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/08_casual_kite_kurete_arigatou.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/08_polite_kite_itadaki_arigatou_gozaimasu.mp3`
+      },
+      {
+        id: `j_bb_09`,
+        eng: `good job.`,
+        casual: { kanji: `お疲れ、よかったよ。`, kana: `おつかれ、よかったよ。`, romaji: `otsukare, yokatta yo.` },
+        polite: { kanji: `お疲れ様でした、よかったです。`, kana: `おつかれさまでした、よかったです。`, romaji: `otsukaresama deshita, yokatta desu.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/09_casual_otsukare_yokatta_yo.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/09_polite_otsukaresama_deshita_yokatta_desu.mp3`
+      },
+      {
+        id: `j_bb_10`,
+        eng: `how’s your climbing going?`,
+        casual: { kanji: `クライミングどう？`, kana: `クライミングどう？`, romaji: `kuraimingu dou?` },
+        polite: { kanji: `クライミングはどうですか？`, kana: `クライミングはどうですか？`, romaji: `kuraimingu wa dou desu ka?` },
+        audioCasual: `japanese_audio/brooklyn_boulders/10_casual_kuraimingu_dou.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/10_polite_kuraimingu_wa_dou_desu_ka.mp3`
+      },
+      {
+        id: `j_bb_11`,
+        eng: `my climbing is going well.`,
+        casual: { kanji: `クライミング順調だよ。`, kana: `クライミングじゅんちょうだよ。`, romaji: `kuraimingu junchou da yo.` },
+        polite: { kanji: `クライミングは順調です。`, kana: `クライミングはじゅんちょうです。`, romaji: `kuraimingu wa junchou desu.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/11_casual_kuraimingu_junchou_da_yo.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/11_polite_kuraimingu_wa_junchou_desu.mp3`
+      },
+      {
+        id: `j_bb_12`,
+        eng: `i’m still a little injured.`,
+        casual: { kanji: `まだ少し怪我してる。`, kana: `まだすこしけがしてる。`, romaji: `mada sukoshi kega shiteru.` },
+        polite: { kanji: `まだ少し怪我をしています。`, kana: `まだすこしけがをしています。`, romaji: `mada sukoshi kega wo shiteimasu.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/12_casual_mada_sukoshi_kega_shiteru.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/12_polite_mada_sukoshi_kega_wo_shiteimasu.mp3`
+      },
+      {
+        id: `j_bb_13`,
+        eng: `you’re injured?`,
+        casual: { kanji: `怪我してるの？`, kana: `けがしてるの？`, romaji: `kega shiteru no?` },
+        polite: { kanji: `怪我をされているんですか？`, kana: `けがをされているんですか？`, romaji: `kega wo sareteirun desu ka?` },
+        audioCasual: `japanese_audio/brooklyn_boulders/13_casual_kega_shiteru_no.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/13_polite_kega_wo_sareteirun_desu_ka.mp3`
+      },
+      {
+        id: `j_bb_14`,
+        eng: `just my finger.`,
+        casual: { kanji: `指だけ。`, kana: `ゆびだけ。`, romaji: `yubi dake.` },
+        polite: { kanji: `指だけです。`, kana: `ゆびだけです。`, romaji: `yubi dake desu.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/14_casual_yubi_dake.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/14_polite_yubi_dake_desu.mp3`
+      },
+      {
+        id: `j_bb_15`,
+        eng: `just my wrist.`,
+        casual: { kanji: `手首だけ。`, kana: `てくびだけ。`, romaji: `tekubi dake.` },
+        polite: { kanji: `手首だけです。`, kana: `てくびだけです。`, romaji: `tekubi dake desu.` },
+        audioCasual: `japanese_audio/brooklyn_boulders/15_casual_tekubi_dake.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/15_polite_tekubi_dake_desu.mp3`
+      },
+      {
+        id: `j_bb_16`,
+        eng: `good climbing session!`,
+        casual: { kanji: `今日のクライミング良かった！`, kana: `きょうのクライミングよかった！`, romaji: `kyou no kuraimingu yokatta!` },
+        polite: { kanji: `今日のクライミングは良かったです！`, kana: `きょうのクライミングはよかったです！`, romaji: `kyou no kuraimingu wa yokatta desu!` },
+        audioCasual: `japanese_audio/brooklyn_boulders/16_casual_kyou_no_kuraimingu_yokatta.mp3`,
+        audioPolite: `japanese_audio/brooklyn_boulders/16_polite_kyou_no_kuraimingu_wa_yokatta_desu.mp3`
+      }
+    ],
+    law_firm: [
+      {
+        id: `j_l_01`,
+        eng: `i’m going to work.`,
+        casual: { kanji: `仕事に行く。`, kana: `しごとにいく。`, romaji: `shigoto ni iku.` },
+        polite: { kanji: `仕事に行きます。`, kana: `しごとにいきます。`, romaji: `shigoto ni ikimasu.` },
+        audioCasual: `japanese_audio/law_firm/01_casual_shigoto_ni_iku.mp3`,
+        audioPolite: `japanese_audio/law_firm/01_polite_shigoto_ni_ikimasu.mp3`
+      },
+      {
+        id: `j_l_02`,
+        eng: `i’m going to the law firm.`,
+        casual: { kanji: `法律事務所に行く。`, kana: `ほうりつじむしょにいく。`, romaji: `houritsu jimusho ni iku.` },
+        polite: { kanji: `法律事務所に行きます。`, kana: `ほうりつじむしょにいきます。`, romaji: `houritsu jimusho ni ikimasu.` },
+        audioCasual: `japanese_audio/law_firm/02_casual_houritsu_jimusho_ni_iku.mp3`,
+        audioPolite: `japanese_audio/law_firm/02_polite_houritsu_jimusho_ni_ikimasu.mp3`
+      },
+      {
+        id: `j_l_03`,
+        eng: `i’m going to the office.`,
+        casual: { kanji: `オフィスに行く。`, kana: `オフィスにいく。`, romaji: `ofisu ni iku.` },
+        polite: { kanji: `オフィスに行きます。`, kana: `オフィスにいきます。`, romaji: `ofisu ni ikimasu.` },
+        audioCasual: `japanese_audio/law_firm/03_casual_ofisu_ni_iku.mp3`,
+        audioPolite: `japanese_audio/law_firm/03_polite_ofisu_ni_ikimasu.mp3`
+      },
+      {
+        id: `j_l_04`,
+        eng: `i just got to the law firm.`,
+        casual: { kanji: `事務所に着いたところ。`, kana: `じむしょについたところ。`, romaji: `jimusho ni tsuita tokoro.` },
+        polite: { kanji: `事務所に着いたところです。`, kana: `じむしょについたところです。`, romaji: `jimusho ni tsuita tokoro desu.` },
+        audioCasual: `japanese_audio/law_firm/04_casual_jimusho_ni_tsuita_tokoro.mp3`,
+        audioPolite: `japanese_audio/law_firm/04_polite_jimusho_ni_tsuita_tokoro_desu.mp3`
+      }
+    ],
+    transit: [
+      {
+        id: `j_t_01`,
+        eng: `i’m walking to the bus stop.`,
+        casual: { kanji: `バス停まで歩いてる。`, kana: `バスていまであるいてる。`, romaji: `basutei made aruiteru.` },
+        polite: { kanji: `バス停まで歩いています。`, kana: `バスていまであるいています。`, romaji: `basutei made aruiteimasu.` },
+        audioCasual: `japanese_audio/transit/01_casual_basutei_made_aruiteru.mp3`,
+        audioPolite: `japanese_audio/transit/01_polite_basutei_made_aruiteimasu.mp3`
+      },
+      {
+        id: `j_t_02`,
+        eng: `i’m taking the bus.`,
+        casual: { kanji: `バスに乗る。`, kana: `バスにのる。`, romaji: `basu ni noru.` },
+        polite: { kanji: `バスに乗ります。`, kana: `バスにのります。`, romaji: `basu ni norimasu.` },
+        audioCasual: `japanese_audio/transit/02_casual_basu_ni_noru.mp3`,
+        audioPolite: `japanese_audio/transit/02_polite_basu_ni_norimasu.mp3`
+      },
+      {
+        id: `j_t_03`,
+        eng: `i’m on the train.`,
+        casual: { kanji: `電車に乗ってる。`, kana: `でんしゃにのってる。`, romaji: `densha ni notteru.` },
+        polite: { kanji: `電車に乗っています。`, kana: `でんしゃにのっています。`, romaji: `densha ni notteimasu.` },
+        audioCasual: `japanese_audio/transit/03_casual_densha_ni_notteru.mp3`,
+        audioPolite: `japanese_audio/transit/03_polite_densha_ni_notteimasu.mp3`
+      },
+      {
+        id: `j_t_04`,
+        eng: `i’m taking the e train.`,
+        casual: { kanji: `e線に乗る。`, kana: `eせんにのる。`, romaji: `e-sen ni noru.` },
+        polite: { kanji: `e線に乗ります。`, kana: `eせんにのります。`, romaji: `e-sen ni norimasu.` },
+        audioCasual: `japanese_audio/transit/04_casual_esen_ni_noru.mp3`,
+        audioPolite: `japanese_audio/transit/04_polite_esen_ni_norimasu.mp3`
+      },
+      {
+        id: `j_t_05`,
+        eng: `i’m taking the f train.`,
+        casual: { kanji: `f線に乗る。`, kana: `fせんにのる。`, romaji: `f-sen ni noru.` },
+        polite: { kanji: `f線に乗ります。`, kana: `fせんにのります。`, romaji: `f-sen ni norimasu.` },
+        audioCasual: `japanese_audio/transit/05_casual_fsen_ni_noru.mp3`,
+        audioPolite: `japanese_audio/transit/05_polite_fsen_ni_norimasu.mp3`
+      },
+      {
+        id: `j_t_06`,
+        eng: `i’m taking the 7 train.`,
+        casual: { kanji: `7号線に乗る。`, kana: `7ごうせんにのる。`, romaji: `nana-gou-sen ni noru.` },
+        polite: { kanji: `7号線に乗ります。`, kana: `7ごうせんにのります。`, romaji: `nana-gou-sen ni norimasu.` },
+        audioCasual: `japanese_audio/transit/06_casual_nanagousen_ni_noru.mp3`,
+        audioPolite: `japanese_audio/transit/06_polite_nanagousen_ni_norimasu.mp3`
+      },
+      {
+        id: `j_t_07`,
+        eng: `i just got off the train.`,
+        casual: { kanji: `電車降りたところ。`, kana: `でんしゃおりたところ。`, romaji: `densha orita tokoro.` },
+        polite: { kanji: `電車を降りたところです。`, kana: `でんしゃをおりたところです。`, romaji: `densha wo orita tokoro desu.` },
+        audioCasual: `japanese_audio/transit/07_casual_densha_orita_tokoro.mp3`,
+        audioPolite: `japanese_audio/transit/07_polite_densha_wo_orita_tokoro_desu.mp3`
+      },
+      {
+        id: `j_t_08`,
+        eng: `what train are you taking?`,
+        casual: { kanji: `何線乗るの？`, kana: `なにせんのるの？`, romaji: `nani-sen noru no?` },
+        polite: { kanji: `何線に乗りますか？`, kana: `なにせんにのりますか？`, romaji: `nani-sen ni norimasu ka?` },
+        audioCasual: `japanese_audio/transit/08_casual_nanisen_noru_no.mp3`,
+        audioPolite: `japanese_audio/transit/08_polite_nanisen_ni_norimasu_ka.mp3`
+      }
+    ],
+    food: [
+      {
+        id: `j_f_01`,
+        eng: `are you going to eat breakfast at home?`,
+        casual: { kanji: `朝ごはん家で食べるの？`, kana: `あさごはんいえでたべるの？`, romaji: `asagohan ie de taberu no?` },
+        polite: { kanji: `朝ごはんは家で食べますか？`, kana: `あさごはんはいえでたべますか？`, romaji: `asagohan wa ie de tabemasu ka?` },
+        audioCasual: `japanese_audio/food/01_casual_asagohan_ie_de_taberu_no.mp3`,
+        audioPolite: `japanese_audio/food/01_polite_asagohan_wa_ie_de_tabemasu_ka.mp3`
+      },
+      {
+        id: `j_f_02`,
+        eng: `probably not.`,
+        casual: { kanji: `たぶん食べない。`, kana: `たぶんたべない。`, romaji: `tabun tabenai.` },
+        polite: { kanji: `たぶん食べません。`, kana: `たぶんたべません。`, romaji: `tabun tabemasen.` },
+        audioCasual: `japanese_audio/food/02_casual_tabun_tabenai.mp3`,
+        audioPolite: `japanese_audio/food/02_polite_tabun_tabemasen.mp3`
+      },
+      {
+        id: `j_f_03`,
+        eng: `there’s nothing at home.`,
+        casual: { kanji: `家に何もない。`, kana: `いえになにもない。`, romaji: `ie ni nani mo nai.` },
+        polite: { kanji: `家に何もありません。`, kana: `いえになにもありません。`, romaji: `ie ni nani mo arimasen.` },
+        audioCasual: `japanese_audio/food/03_casual_ie_ni_nani_mo_nai.mp3`,
+        audioPolite: `japanese_audio/food/03_polite_ie_ni_nani_mo_arimasen.mp3`
+      },
+      {
+        id: `j_f_04`,
+        eng: `i’ll grab something outside.`,
+        casual: { kanji: `外で何か買う。`, kana: `そとでなにかかう。`, romaji: `soto de nanika kau.` },
+        polite: { kanji: `外で何か買います。`, kana: `そとでなにかかいます。`, romaji: `soto de nanika kaimasu.` },
+        audioCasual: `japanese_audio/food/04_casual_soto_de_nanika_kau.mp3`,
+        audioPolite: `japanese_audio/food/04_polite_soto_de_nanika_kaimasu.mp3`
+      },
+      {
+        id: `j_f_05`,
+        eng: `what do you want to eat?`,
+        casual: { kanji: `何食べたい？`, kana: `なにたべたい？`, romaji: `nani tabetai?` },
+        polite: { kanji: `何が食べたいですか？`, kana: `なにがたべたいですか？`, romaji: `nani ga tabetai desu ka?` },
+        audioCasual: `japanese_audio/food/05_casual_nani_tabetai.mp3`,
+        audioPolite: `japanese_audio/food/05_polite_nani_ga_tabetai_desu_ka.mp3`
+      },
+      {
+        id: `j_f_06`,
+        eng: `did you eat?`,
+        casual: { kanji: `ご飯食べた？`, kana: `ごはんたべた？`, romaji: `gohan tabeta?` },
+        polite: { kanji: `ご飯食べましたか？`, kana: `ごはんたべましたか？`, romaji: `gohan tabemashita ka?` },
+        audioCasual: `japanese_audio/food/06_casual_gohan_tabeta.mp3`,
+        audioPolite: `japanese_audio/food/06_polite_gohan_tabemashita_ka.mp3`
+      },
+      {
+        id: `j_f_07`,
+        eng: `i’m going to eat.`,
+        casual: { kanji: `ご飯食べる。`, kana: `ごはんたべる。`, romaji: `gohan taberu.` },
+        polite: { kanji: `ご飯を食べます。`, kana: `ごはんをたべます。`, romaji: `gohan wo tabemasu.` },
+        audioCasual: `japanese_audio/food/07_casual_gohan_taberu.mp3`,
+        audioPolite: `japanese_audio/food/07_polite_gohan_wo_tabemasu.mp3`
+      },
+      {
+        id: `j_f_08`,
+        eng: `i want to go to the food court.`,
+        casual: { kanji: `フードコート行きたい。`, kana: `フードコートいきたい。`, romaji: `fuudo kooto ikitai.` },
+        polite: { kanji: `フードコートに行きたいです。`, kana: `フードコートにいきたいです。`, romaji: `fuudo kooto ni ikitai desu.` },
+        audioCasual: `japanese_audio/food/08_casual_fuudo_kooto_ikitai.mp3`,
+        audioPolite: `japanese_audio/food/08_polite_fuudo_kooto_ni_ikitai_desu.mp3`
+      }
+    ]
+  }
+};
+
+let mode = ``;
+let currentLang = ``;
+let studyQueue = [];
+let currentIndex = 0;
+let audioObj = null;
+
+function hideAll() {
+  document.querySelectorAll(`.container > div`).forEach(d => d.style.display = `none`);
+  if (audioObj) audioObj.pause();
+}
+
+function showIntro() {
+  hideAll();
+  document.getElementById(`view-intro`).style.display = `block`;
+}
+
+function showLangs() {
+  hideAll();
+  document.getElementById(`view-langs`).style.display = `block`;
+  const langList = document.getElementById(`lang-list`);
+  langList.innerHTML = ``;
+  for (const lang in library) {
+    const btn = document.createElement(`button`);
+    btn.className = `btn`;
+    btn.textContent = lang;
+    btn.onclick = () => { currentLang = lang; showMethod(); };
+    langList.appendChild(btn);
+  }
+}
+
+function showMethod() {
+  hideAll();
+  document.getElementById(`view-method`).style.display = `block`;
+}
+
+function setMode(selectedMode) {
+  mode = selectedMode;
+  showCats();
+}
+
+function showCats() {
+  hideAll();
+  document.getElementById(`view-cats`).style.display = `block`;
+  const catList = document.getElementById(`cat-list`);
+  catList.innerHTML = ``;
+  
+  for (const cat in library[currentLang]) {
+    const catDiv = document.createElement(`div`);
+    catDiv.className = `cat-container`;
+    
+    const headerRow = document.createElement(`div`);
+    headerRow.className = `cat-header-row`;
+    
+    const checkbox = document.createElement(`input`);
+    checkbox.type = `checkbox`;
+    checkbox.className = `cat-checkbox`;
+    checkbox.value = cat;
+    
+    const catBtn = document.createElement(`button`);
+    catBtn.className = `cat-btn`;
+    catBtn.textContent = cat;
+    
+    headerRow.appendChild(checkbox);
+    headerRow.appendChild(catBtn);
+    
+    const phraseList = document.createElement(`div`);
+    phraseList.className = `phrase-list`;
+    
+    library[currentLang][cat].forEach((item, idx) => {
+      const pBtn = document.createElement(`button`);
+      pBtn.className = `phrase-item`;
+      pBtn.textContent = item.eng;
+      pBtn.onclick = () => {
+        studyQueue = [...library[currentLang][cat]];
+        currentIndex = idx;
+        showCard();
+      };
+      phraseList.appendChild(pBtn);
+    });
+    
+    catBtn.onclick = () => {
+      phraseList.style.display = phraseList.style.display === `block` ? `none` : `block`;
+    };
+    
+    catDiv.appendChild(headerRow);
+    catDiv.appendChild(phraseList);
+    catList.appendChild(catDiv);
+  }
+}
+
+document.getElementById(`btn-study-selected`).onclick = () => {
+  const selected = document.querySelectorAll(`.cat-checkbox:checked`);
+  if (selected.length === 0) return;
+  let combined = [];
+  selected.forEach(cb => combined = combined.concat(library[currentLang][cb.value]));
+  studyQueue = combined.sort(() => Math.random() - 0.5);
+  currentIndex = 0;
+  showCard();
+};
+
+const flashcard = document.getElementById(`flashcard`);
+const targetDiv = document.getElementById(`card-target`);
+const audioContainer = document.getElementById(`card-audio-container`);
+const controls = document.getElementById(`card-controls`);
+const progressFill = document.getElementById(`progress-fill`);
+
+function updateProgress() {
+  if (studyQueue.length === 0) return;
+  const pct = ((currentIndex + 1) / studyQueue.length) * 100;
+  progressFill.style.width = `${pct}%`;
+}
+
+function playAudio(path) {
+  if (path) {
+    if (audioObj) audioObj.pause();
+    audioObj = new Audio(path);
+    audioObj.play();
+  }
+}
+
+function showCard() {
+  hideAll();
+  document.getElementById(`view-card`).style.display = `block`;
+  
+  if (studyQueue.length === 0) return showIntro();
+  
+  const item = studyQueue[currentIndex];
+  document.getElementById(`card-eng`).textContent = item.eng;
+  document.getElementById(`card-counter`).textContent = `${currentIndex + 1} / ${studyQueue.length}`;
+  
+  targetDiv.innerHTML = ``;
+  audioContainer.innerHTML = ``;
+  
+  if (currentLang === `japanese`) {
+    let html = ``;
+    if (item.casual) {
+      html += `<div class="jp-section">
+                <div class="jp-label">casual</div>
+                <div class="jp-kanji">${item.casual.kanji}</div>
+                <div class="jp-kana">${item.casual.kana}</div>
+                <div class="jp-romaji">${item.casual.romaji}</div>
+               </div>`;
+      let btn = document.createElement(`button`);
+      btn.className = `action-btn`;
+      btn.textContent = `play casual`;
+      btn.onclick = (e) => { e.stopPropagation(); playAudio(item.audioCasual); };
+      audioContainer.appendChild(btn);
+    }
+    if (item.polite) {
+      html += `<div class="jp-section">
+                <div class="jp-label">polite</div>
+                <div class="jp-kanji">${item.polite.kanji}</div>
+                <div class="jp-kana">${item.polite.kana}</div>
+                <div class="jp-romaji">${item.polite.romaji}</div>
+               </div>`;
+      let btn = document.createElement(`button`);
+      btn.className = `action-btn`;
+      btn.textContent = `play polite`;
+      btn.onclick = (e) => { e.stopPropagation(); playAudio(item.audioPolite); };
+      audioContainer.appendChild(btn);
+    }
+    targetDiv.innerHTML = html;
+  } else {
+    targetDiv.textContent = item.target;
+    let btn = document.createElement(`button`);
+    btn.className = `action-btn`;
+    btn.textContent = `play audio`;
+    btn.onclick = (e) => { e.stopPropagation(); playAudio(item.audio); };
+    audioContainer.appendChild(btn);
+  }
+
+  updateProgress();
+  controls.style.display = studyQueue.length > 1 ? `flex` : `none`;
+  
+  if (mode === `flash`) {
+    targetDiv.style.display = `none`;
+    audioContainer.style.display = `none`;
+    flashcard.style.cursor = `pointer`;
+  } else {
+    targetDiv.style.display = `block`;
+    audioContainer.style.display = `flex`;
+    flashcard.style.cursor = `default`;
+  }
+}
+
+flashcard.onclick = (e) => {
+  if (e.target.tagName === `BUTTON` || e.target.tagName === `INPUT`) return;
+  if (mode === `flash`) {
+    if (targetDiv.style.display === `none`) {
+      targetDiv.style.display = `block`;
+      audioContainer.style.display = `flex`;
+    } else {
+      targetDiv.style.display = `none`;
+      audioContainer.style.display = `none`;
+    }
+  }
+};
+
+document.getElementById(`btn-next`).onclick = () => { if (currentIndex < studyQueue.length - 1) { currentIndex++; showCard(); } };
+document.getElementById(`btn-prev`).onclick = () => { if (currentIndex > 0) { currentIndex--; showCard(); } };
+
+document.getElementById(`btn-back-card`).onclick = () => {
+  showCats();
+};
+</script>
+</body>
+</html>
